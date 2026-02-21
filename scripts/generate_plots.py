@@ -118,7 +118,7 @@ def save_metrics_plot(pid_records: list[SimulationRecord], learned_records: list
             Line2D([], [], linestyle="none", label="Settle Time is clipped to 4.0 s when not settled"),
         ],
         title="How to read this plot",
-        loc="upper right",
+        loc="upper left",
         framealpha=0.95,
     )
     plt.tight_layout()
