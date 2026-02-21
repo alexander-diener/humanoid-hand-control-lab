@@ -1,6 +1,6 @@
-# Portfolio Mapping to Job Requirements
+# Portfolio Mapping to Role Requirements
 
-This file maps project artifacts to the job profile "Softwareentwickler fuer humanoide Robotik".
+This file maps project artifacts to a "Software Engineer, Humanoid Robotics" profile.
 
 ## Core mapping
 
@@ -26,4 +26,3 @@ This file maps project artifacts to the job profile "Softwareentwickler fuer hum
 
 - C++ / ROS2 extension path:
   - `ros2/finger_controller_node.cpp`
-

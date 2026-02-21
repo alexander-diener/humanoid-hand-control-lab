@@ -1,46 +1,31 @@
 # Humanoid Hand Control Lab
 
-A portfolio project tailored to a "Softwareentwickler fuer humanoide Robotik" role.
+Simulation and control mini-stack for a humanoid robot finger.
 
-It demonstrates:
-- clean control-stack architecture
-- classical control (PID)
-- AI-style policy learning (imitation from controller data)
-- simulation, metrics, tests, and CI
-- ROS2/C++ extension sketch
+This portfolio project is designed for **Software Engineer, Humanoid Robotics** roles and demonstrates:
+- control-system architecture
+- classical feedback control (PID)
+- data-driven control policy (learned linear policy)
+- evaluation with metrics, tests, and CI
+- extension path to ROS2/C++
 
-## Why this project fits the role
+## Highlights
 
-The position asks for software architecture in humanoid hand control, simulation, control methods,
-and quality/performance work. This repo shows all of that in a compact form and is easy to explain live.
+### Closed-loop tracking behavior
+![Tracking Response](assets/plots/tracking_response.png)
 
-See detailed mapping in `docs/portfolio_mapping.md`.
+### Controller quality comparison
+![Controller Metrics](assets/plots/controller_metrics.png)
 
-## Stack
+## What is implemented
 
-- Python 3.10+
-- No heavy external runtime dependencies for core simulation
-- Optional ROS2 C++ sketch in `ros2/`
-
-## Project layout
-
-```text
-src/hand_control/
-  model.py         # dynamic finger model
-  controllers.py   # PID controller
-  learner.py       # learned linear policy
-  simulator.py     # simulation loop
-  metrics.py       # RMSE, settling time, max error
-scripts/
-  run_demo.py      # end-to-end demo + artifact CSV
-  benchmark.py     # simple runtime benchmark
-tests/
-  test_controllers.py
-  test_simulation.py
-  test_learner.py
-ros2/
-  finger_controller_node.cpp  # ROS2 C++ extension sketch
-```
+- Dynamic plant model: `src/hand_control/model.py`
+- PID controller: `src/hand_control/controllers.py`
+- Learned policy (supervised imitation from PID trajectories): `src/hand_control/learner.py`
+- Simulation engine and metrics: `src/hand_control/simulator.py`, `src/hand_control/metrics.py`
+- Demo and benchmark scripts: `scripts/run_demo.py`, `scripts/benchmark.py`
+- Plot generation script: `scripts/generate_plots.py`
+- ROS2 C++ integration sketch: `ros2/finger_controller_node.cpp`
 
 ## Quickstart
 
@@ -54,29 +39,25 @@ python scripts/run_demo.py
 python scripts/benchmark.py
 ```
 
-## Typical demo output
-
-- `artifacts/demo_results.csv` with trajectories for PID and learned policy
-- terminal metrics (RMSE, max error, settling time)
-
-## Interview narrative (3-5 minutes)
-
-1. Explain the architecture and model assumptions (`src/hand_control/model.py`)
-2. Show PID behavior and tuning (`src/hand_control/controllers.py`)
-3. Show imitation-learning handoff (`src/hand_control/learner.py`)
-4. Prove quality with tests and CI (`tests/`, `.github/workflows/ci.yml`)
-5. Point to ROS2/C++ extension path (`ros2/finger_controller_node.cpp`)
-
-## Publish to GitHub
-
+To regenerate plots:
 ```bash
-git init
-git add .
-git commit -m "feat: add humanoid hand control portfolio project"
-git branch -M main
-git remote add origin https://github.com/alexander-diener/humanoid-hand-control-lab.git
-git push -u origin main
+pip install -e .[viz]
+python scripts/generate_plots.py
 ```
 
-If the target repository already exists, only run `git remote add origin` and `git push`.
+## Results snapshot
 
+- Test suite: `4 passed`
+- PID tracking RMSE (step target): about `0.149`
+- Learned policy RMSE: about `0.133`
+- Benchmark runtime: around `3 microseconds` per simulation step
+
+## Relevance to Humanoid Robotics Engineering
+
+This repository maps directly to common humanoid robotics tasks:
+- modeling finger dynamics and control loops
+- tuning and validating controllers
+- comparing classical vs. learned control strategies
+- building testable, modular software for future ROS2 deployment
+
+Detailed requirement mapping is documented in `docs/portfolio_mapping.md`.
