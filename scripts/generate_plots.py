@@ -3,6 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 
 from hand_control.controllers import PIDController
 from hand_control.learner import LinearPolicy, TrainingSample
@@ -45,14 +47,40 @@ def save_tracking_plot(pid_records: list[SimulationRecord], learned_records: lis
     learned_theta = [r.theta for r in learned_records]
 
     plt.figure(figsize=(10, 5))
-    plt.plot(t, target, "--", linewidth=2.2, label="Target angle")
-    plt.plot(t, pid_theta, linewidth=2.0, label="PID")
-    plt.plot(t, learned_theta, linewidth=2.0, label="Learned policy")
+    plt.plot(
+        t,
+        target,
+        "--",
+        linewidth=2.2,
+        color="#2f2f2f",
+        label="Reference command: desired joint angle (step from 0.0 to 0.8 rad)",
+    )
+    plt.plot(
+        t,
+        pid_theta,
+        linewidth=2.0,
+        color="#1f77b4",
+        label="PID baseline: hand-tuned feedback controller output",
+    )
+    plt.plot(
+        t,
+        learned_theta,
+        linewidth=2.0,
+        color="#ff7f0e",
+        label="Learned policy: linear model trained to imitate PID torque",
+    )
+    plt.axvline(
+        0.2,
+        color="#7f7f7f",
+        linestyle=":",
+        linewidth=1.2,
+        label="Command change event at t = 0.2 s",
+    )
     plt.xlabel("Time [s]")
     plt.ylabel("Joint angle [rad]")
     plt.title("Finger Tracking Response")
     plt.grid(alpha=0.3)
-    plt.legend()
+    plt.legend(title="How to read this plot", loc="lower right", framealpha=0.95)
     plt.tight_layout()
     plt.savefig(out_path, dpi=150)
     plt.close()
@@ -72,14 +100,27 @@ def save_metrics_plot(pid_records: list[SimulationRecord], learned_records: list
     x = range(len(names))
     width = 0.38
 
+    pid_color = "#1f77b4"
+    learned_color = "#ff7f0e"
+
     plt.figure(figsize=(10, 5))
-    plt.bar([i - width / 2 for i in x], pid_values, width=width, label="PID")
-    plt.bar([i + width / 2 for i in x], learned_values, width=width, label="Learned policy")
+    plt.bar([i - width / 2 for i in x], pid_values, width=width, color=pid_color)
+    plt.bar([i + width / 2 for i in x], learned_values, width=width, color=learned_color)
     plt.xticks(list(x), names)
     plt.ylabel("Value")
     plt.title("Controller Comparison")
     plt.grid(axis="y", alpha=0.25)
-    plt.legend()
+    plt.legend(
+        handles=[
+            Patch(facecolor=pid_color, label="PID baseline (hand-tuned gains)"),
+            Patch(facecolor=learned_color, label="Learned policy (supervised imitation from PID)"),
+            Line2D([], [], linestyle="none", label="Interpretation: lower is better for all bars"),
+            Line2D([], [], linestyle="none", label="Settle Time is clipped to 4.0 s when not settled"),
+        ],
+        title="How to read this plot",
+        loc="upper right",
+        framealpha=0.95,
+    )
     plt.tight_layout()
     plt.savefig(out_path, dpi=150)
     plt.close()
@@ -99,4 +140,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
