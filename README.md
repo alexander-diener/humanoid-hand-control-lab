@@ -12,10 +12,10 @@ This portfolio project is designed for **Software Engineer, Humanoid Robotics** 
 ## Highlights
 
 ### Closed-loop tracking behavior
-![Tracking Response](assets/plots/tracking_response.png)
+![Tracking Response](assets/plots/tracking_response_v2.png)
 
 ### Controller quality comparison
-![Controller Metrics](assets/plots/controller_metrics.png)
+![Controller Metrics](assets/plots/controller_metrics_v2.png)
 
 ## What is implemented
 
