@@ -52,6 +52,23 @@ python scripts/generate_plots.py
 - Learned policy RMSE: about `0.133`
 - Benchmark runtime: around `3 microseconds` per simulation step
 
+## What I Learned
+
+This project was built to learn how a compact robotics control stack is structured end-to-end.
+
+Goals:
+- build a clean separation between physics model, controllers, simulation loop, and metrics
+- implement and tune a classical controller (PID) for joint-angle tracking
+- add a simple data-driven controller and compare it against a model-based baseline
+- produce reproducible evidence with tests, benchmark numbers, and visual plots
+
+Results achieved:
+- implemented a full closed-loop simulation workflow for a 1-DOF humanoid finger joint
+- validated functionality with automated tests (`4 passed`)
+- compared controller quality using RMSE, max error, and settling behavior
+- generated explainable visual artifacts for fast reviewer understanding
+- prepared a clear extension path toward ROS2/C++ integration
+
 ## Relevance to Humanoid Robotics Engineering
 
 This repository maps directly to common humanoid robotics tasks:
